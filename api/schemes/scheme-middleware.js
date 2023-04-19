@@ -17,7 +17,7 @@ try{
 
   if(!existing){
     next({
-      status: 404, message: `scheme with scheme_id ${req.params.scheme_id}`
+      status: 404, message: `scheme with scheme_id ${req.params.scheme_id} not found`
     })
     
   } else {
@@ -68,10 +68,11 @@ const validateStep = (req, res, next) => {
     typeof instructions !== 'string' ||
     !instructions.trim() ||
     typeof step_number !== 'number' ||
+    isNaN(step_number)||
     step_number <1
     ){
-      const error = {status: 400, message:'invalid step'}
-      next(error)
+      next({status: 400, message:'invalid step'})
+      
     } else{
       next()
     }
